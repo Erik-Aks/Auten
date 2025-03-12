@@ -1,0 +1,49 @@
+Opis
+Ten program umożliwia rejestrację i logowanie użytkowników. Hasła są walidowane pod kątem określonych kryteriów bezpieczeństwa, a następnie hashowane za pomocą algorytmu SHA-256 przed zapisaniem do pliku. Program obsługuje również logowanie użytkowników poprzez porównanie podanego hasła z zapisanym hasłem.
+
+Funkcje
+hash_password(password)
+Hashuje podane hasło za pomocą algorytmu SHA-256.
+
+Argumenty:
+
+password (str): Hasło do zahashowania.
+Zwraca:
+
+str: Zahashowane hasło w formie heksadecymalnej.
+validate_password(password)
+Waliduje hasło zgodnie z określonymi kryteriami:
+
+co najmniej 8 znaków,
+
+co najmniej jedna litera,
+
+co najmniej jedna cyfra,
+
+co najmniej jedna duża litera,
+
+co najmniej jeden znak specjalny.
+
+Argumenty:
+
+password (str): Hasło do walidacji.
+Zwraca:
+
+bool: True, jeśli hasło spełnia wszystkie kryteria, False w przeciwnym razie.
+register()
+Rejestruje nowego użytkownika, prosząc o login i hasło. Hasło jest walidowane i hashowane przed zapisaniem do pliku.
+
+Zwraca:
+tuple: Zawiera login i zahashowane hasło użytkownika.
+login()
+Loguje użytkownika, prosząc o login i hasło. Hasło jest hashowane i porównywane z zapisanym hasłem w pliku.
+
+main()
+Główna funkcja programu, która umożliwia wybór między rejestracją, logowaniem a wyjściem.
+
+Użycie
+Uruchom program.
+Wybierz jedną z opcji:
+[1] Rejestracja: Rejestracja nowego użytkownika.
+[2] Logowanie: Logowanie istniejącego użytkownika.
+[3] Wyjście: Zakończenie programu.
