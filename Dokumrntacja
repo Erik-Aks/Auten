@@ -1,49 +1,134 @@
-Opis
-Ten program umożliwia rejestrację i logowanie użytkowników. Hasła są walidowane pod kątem określonych kryteriów bezpieczeństwa, a następnie hashowane za pomocą algorytmu SHA-256 przed zapisaniem do pliku. Program obsługuje również logowanie użytkowników poprzez porównanie podanego hasła z zapisanym hasłem.
+Spis treści
+Wprowadzenie
+Wymagania
+Konfiguracja
+Struktura kodu
+Funkcje
+Użycie
+Wprowadzenie
+Ten projekt implementuje system rejestracji i logowania użytkowników z weryfikacją SMS i e-mail. Użytkownicy mogą zarejestrować się, podając login, hasło, numer telefonu i adres e-mail. Podczas logowania użytkownicy muszą przejść weryfikację dwuetapową za pomocą kodów wysyłanych na ich telefon i e-mail.
 
+Wymagania
+Python 3.x
+Biblioteki: twilio, smtplib, email, getpass, re, hashlib, random
+Konfiguracja
+Twilio:
+
+Utwórz konto na Twilio.
+Uzyskaj Account SID, Auth Token i numer telefonu Twilio.
+Skonfiguruj zmienne TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN i TWILIO_PHONE_NUMBER w kodzie.
+Gmail:
+
+Utwórz konto Gmail.
+Włącz dostęp dla mniej bezpiecznych aplikacji w ustawieniach konta Gmail.
+Skonfiguruj zmienne your_email@gmail.com i your_email_password w kodzie.
+Struktura kodu
+hash_password(password): Funkcja do haszowania hasła.
+validate_password(password): Funkcja do walidacji hasła.
+load_credentials(): Funkcja do ładowania danych uwierzytelniających z pliku.
+save_credentials(credentials): Funkcja do zapisywania danych uwierzytelniających do pliku.
+generate_code(): Funkcja do generowania kodu weryfikacyjnego.
+send_email(email, code): Funkcja do wysyłania kodu weryfikacyjnego na e-mail.
+send_sms(phone, code): Funkcja do wysyłania kodu weryfikacyjnego na telefon.
+register(): Funkcja do rejestracji użytkownika.
+login(): Funkcja do logowania użytkownika.
+main(): Główna funkcja programu.
 Funkcje
 hash_password(password)
-Hashuje podane hasło za pomocą algorytmu SHA-256.
+Haszuje hasło użytkownika za pomocą algorytmu SHA-256.
 
-Argumenty:
-
-password (str): Hasło do zahashowania.
-Zwraca:
-
-str: Zahashowane hasło w formie heksadecymalnej.
+Parametry: password (str) - hasło użytkownika.
+Zwraca: (str) - zahaszowane hasło.
 validate_password(password)
-Waliduje hasło zgodnie z określonymi kryteriami:
+Waliduje hasło użytkownika zgodnie z określonymi kryteriami.
 
-co najmniej 8 znaków,
+Parametry: password (str) - hasło użytkownika.
+Zwraca: (bool) - True jeśli hasło jest poprawne, w przeciwnym razie False.
+load_credentials()
+Ładuje dane uwierzytelniające użytkowników z pliku credentials.txt.
 
-co najmniej jedna litera,
+Zwraca: (dict) - słownik z danymi uwierzytelniającymi.
+save_credentials(credentials)
+Zapisuje dane uwierzytelniające użytkowników do pliku credentials.txt.
 
-co najmniej jedna cyfra,
+Parametry: credentials (dict) - słownik z danymi uwierzytelniającymi.
+generate_code()
+Generuje czterocyfrowy kod weryfikacyjny.
 
-co najmniej jedna duża litera,
+Zwraca: (str) - czterocyfrowy kod weryfikacyjny.
+send_email(email, code)
+Wysyła kod weryfikacyjny na podany adres e-mail.
 
-co najmniej jeden znak specjalny.
+Parametry:
+email (str) - adres e-mail użytkownika.
+code (str) - kod weryfikacyjny.
+send_sms(phone, code)
+Wysyła kod weryfikacyjny na podany numer telefonu.
 
-Argumenty:
-
-password (str): Hasło do walidacji.
-Zwraca:
-
-bool: True, jeśli hasło spełnia wszystkie kryteria, False w przeciwnym razie.
+Parametry:
+phone (str) - numer telefonu użytkownika.
+code (str) - kod weryfikacyjny.
 register()
-Rejestruje nowego użytkownika, prosząc o login i hasło. Hasło jest walidowane i hashowane przed zapisaniem do pliku.
+Rejestruje nowego użytkownika, zapisując jego dane uwierzytelniające.
 
-Zwraca:
-tuple: Zawiera login i zahashowane hasło użytkownika.
+Zwraca: (tuple) - login i zahaszowane hasło użytkownika.
 login()
-Loguje użytkownika, prosząc o login i hasło. Hasło jest hashowane i porównywane z zapisanym hasłem w pliku.
+Loguje użytkownika, weryfikując jego dane uwierzytelniające oraz kody weryfikacyjne.
 
+Zwraca: None
 main()
-Główna funkcja programu, która umożliwia wybór między rejestracją, logowaniem a wyjściem.
+Główna funkcja programu, która obsługuje menu wyboru dla rejestracji, logowania i wyjścia.
 
+Zwraca: None
 Użycie
-Uruchom program.
-Wybierz jedną z opcji:
-[1] Rejestracja: Rejestracja nowego użytkownika.
-[2] Logowanie: Logowanie istniejącego użytkownika.
-[3] Wyjście: Zakończenie programu.
+Uruchomienie programu:
+
+Uruchom skrypt auth_system.py:
+Sh
+Insert in terminal
+
+python auth_system.py
+Rejestracja:
+
+Wybierz opcję [1] Rejestracja.
+Podaj login, hasło, numer telefonu i adres e-mail.
+Dane zostaną zapisane w pliku credentials.txt.
+Logowanie:
+
+Wybierz opcję [2] Logowanie.
+Podaj login i hasło.
+Wprowadź kody weryfikacyjne wysłane na telefon i e-mail.
+Wyjście:
+
+Wybierz opcję [3] Wyjście, aby zakończyć program.
+Przykład użycia
+Sh
+Insert in terminal
+
+Wybierz opcję: [1] Rejestracja, [2] Logowanie, [3] Wyjście: 1
+Rejestracja:
+Podaj login: user1
+Podaj hasło: ********
+Podaj numer telefonu: +48123456789
+Podaj adres e-mail: user1@example.com
+Dane zostały zapisane.
+
+Wybierz opcję: [1] Rejestracja, [2] Logowanie, [3] Wyjście: 2
+Logowanie:
+Podaj login: user1
+Podaj hasło: ********
+SMS wysłany na +48123456789: Kod weryfikacyjny to 1234
+Podaj kod weryfikacyjny z telefonu: 1234
+E-mail wysłany na user1@example.com: Kod weryfikacyjny to 5678
+Podaj kod weryfikacyjny z e-maila: 5678
+Logowanie zakończone sukcesem
+Numer telefonu: +48123456789
+Adres e-mail: user1@example.com
+
+Wybierz opcję: [1] Rejestracja, [2] Logowanie, [3] Wyjście: 3
+
+
+
+Uwagi
+Upewnij się, że masz poprawnie skonfigurowane dane uwierzytelniające dla Twilio i Gmaila.
+Plik credentials.txt przechowuje dane uwierzytelniające użytkowników w formacie login:hashed_password:phone:email.
